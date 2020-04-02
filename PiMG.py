@@ -10,6 +10,7 @@ GPIO.setup(10, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
 counter = 0
 
+camera.resolution = (1920, 1080)
 camera.start_preview()
 
 while 1==1:
