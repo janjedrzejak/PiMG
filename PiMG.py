@@ -1,25 +1,23 @@
-import RPi.GPIO as GPIO
+from gpiozero import Button
 from picamera import picamera
 from time import sleep
 
 camera = PiCamera()
+button = Button(17)
 
-GPIO.setwarings(False)
-GPIO.setmode(GPIO.BOARD)
-GPIO.setup(10, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-
-counter = 0
+frame = 1
 
 camera.resolution = (1920, 1080)
 camera.start_preview()
 
-while 1==1:
-    if GPIO.input(10) == GPIO.HIGH:
-        print("Take a photo")
+while True:
+    try:
+    button.wait_for_press()
         if counter < 10:
             camera.capture('/home/pi/Desktop/obrazy/img0' + counter + '.jpg')
         else:
             camera.capture('/home/pi/Desktop/obrazy/img' + counter + '.jpg')
-        counter +=1
-
-camera.stop_preview()
+        frame +=1
+    except KeyboardInterrupt:
+        camera.stop_preview()
+        break
